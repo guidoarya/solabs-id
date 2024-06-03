@@ -45,12 +45,11 @@ export class AuthController {
       throw new BadRequestException('Username and password are required');
     }
     if (!file) {
-      throw new BadRequestException('Profile picture is required');
+    } else {
+      const imageUrl = `uploads/${file.filename}`;
+      createUserDto.imageUrl = imageUrl;
     }
 
-    console.info({ file });
-    const imageUrl = `/uploads/${file.filename}`;
-    createUserDto.imageUrl = imageUrl;
     return this.authService.register(createUserDto);
   }
 }

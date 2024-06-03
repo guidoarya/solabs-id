@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { join } from 'path';
+import * as cors from 'cors';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -11,6 +12,13 @@ async function bootstrap() {
     prefix: '/uploads',
   });
 
-  await app.listen(3000);
+  app.enableCors({
+    origin: '*', // Membuka akses dari semua origin
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    preflightContinue: false,
+    optionsSuccessStatus: 204,
+  });
+
+  await app.listen(3001);
 }
 bootstrap();
